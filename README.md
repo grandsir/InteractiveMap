@@ -1,3 +1,3 @@
 # InteractiveMap
 
-A description of this package.
+A Library to use SVG Based Maps in interactively SwiftUI.
