@@ -10,9 +10,7 @@ A Library to use SVG Based Maps in interactively in SwiftUI.
 
 ## Usage
 
-To present the InteractiveMap in SwiftUI, use `InteractiveMap` View in SwiftUI with a closure taking `Province` as the parameter.
-InteractiveMap resizes itself to the assigned frame, and takes all available space by default.
-
+To draw your svg map in SwiftUI, use `InteractiveMap` View with a closure taking `Province` as the parameter.
 
 ```swift
 import SwiftUI
@@ -33,5 +31,6 @@ struct ContentView: View {
     }
 }
 ```
+InteractiveMap resizes itself to the assigned frame, and takes all available space by default.
 
 You can do anything with `ProvinceShape` that SwiftUI allows you to do with `Shape`s.
