@@ -21,6 +21,7 @@ let package = Package(
         .target(
             name: "InteractiveMap",
             dependencies: []),
+            path: "Sources"
         .testTarget(
             name: "InteractiveMapTests",
             dependencies: ["InteractiveMap"]),
