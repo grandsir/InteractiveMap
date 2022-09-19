@@ -34,4 +34,4 @@ struct ContentView: View {
 }
 ```
 
-You can do anything with the shape that SwiftUI allows you to do.
+You can do anything with `ProvinceShape` that SwiftUI allows you to do with the `Shape`s.
