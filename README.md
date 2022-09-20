@@ -52,12 +52,28 @@ struct ContentView: View {
 ```
 MapView resizes itself to the assigned frame, and takes all available space by default.
 
-<img src="https://github.com/GrandSir/InteractiveMap/blob/main/Assets/map_default.png?raw=true" width=700 alt="Default Map">
+<img src="Assets/map_default.png" width=700 alt="Default Map">
 <hr>
 <div style="text-align: center; color: gray"> Map with default attributes </div>
 
 # Customization
 
+Instead of using default attributes, you can define your own as well.
 
+```swift
+import SwiftUI
+import InteractiveMap
 
+struct ContentView: View {
+    var body: some View {
+        MapView(svgName: "tr") {
+            ProvinceShape($0)
+                .initWithAttributes(.init(strokeWidth: 2, strokeColor: .red, background: Color(white: 0.2, opacity: 1)))
+        }
+    }
+}
+```
+<hr>
+<img src="Assets/map_customized_with_attributes.png" width=700 alt="Custom Attributes Map">
 
+Map with custom attributes
