@@ -1,5 +1,5 @@
 # InteractiveMap
-[Interactive Map](./Assets/interactiveMap.png
+[Interactive Map](./Assets/interactiveMap.png)
 
 A Library to use SVG Based Maps interactively in SwiftUI.
 
