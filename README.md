@@ -25,7 +25,7 @@ struct ContentView: View {
     }
 }
 ```
-InteractiveMap resizes itself to the assigned frame, and takes all available space by default.
+MapView resizes itself to the assigned frame, and takes all available space by default.
 
 ### Installation 
 Requires iOS 13+. InteractiveMap currently can only be installed through the Swift Package Manager.
