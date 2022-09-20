@@ -48,6 +48,9 @@ Add the Package URL:
 https://github.com/GrandSir/InteractiveMap
 ```
 </td>
+<td>
+<br>
+</td>
 </tr>
 </table>
 
