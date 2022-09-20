@@ -89,3 +89,45 @@ func executeCommand(pathCommands: [PathExecutionCommand]) -> Path {
     return path
     
 }
+
+
+/// Struct that holds every information of province
+/// - Parameters:
+/// - name: Name of the province that is specified inside <path> element .
+/// - id:  ID of the province that holds the `id` in <path> element.
+/// - path: an array of `PathExecutionCommand`s that is parsed from `MapParser`
+///
+/// An example from a SVG file:
+/// <path ... id="TUR2229" name="Aydin">
+///
+/// Where the `id` and `name` is wrapped into the `Province` in `XMLParser`
+///
+///
+@available(macOS 10.15, iOS 13.0, *)
+public struct Province : Identifiable {
+    var name: String
+    public var id: String
+    var path : [PathExecutionCommand]
+    
+    public init(name: String, id: String, path: [PathExecutionCommand]) {
+        self.name = name
+        self.id = id
+        self.path = path
+    }
+}
+
+
+
+@available(iOS 13.0, macOS 10.15, *)
+extension Province {
+    public static var EmptyProvince : Province {
+        Province(name: "", id: "", path: [PathExecutionCommand(coordinate: CGPoint(x: 0, y: 0), command: "")])
+    }
+}
+
+@available(iOS 13.0, macOS 10.15, *)
+extension Province : Equatable {
+    public static func == (lhs: Province, rhs: Province) -> Bool {
+        lhs.id == rhs.id
+    }
+}
