@@ -56,7 +56,7 @@ MapView resizes itself to the assigned frame, and takes all available space by d
 
 # Customization
 
-Instead of using default attributes, you can define your own as well. 
+Instead of using default attributes, you can define your own attributes as well. 
 
 ```swift
 MapView(svgName: "tr") {
