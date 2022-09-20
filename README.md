@@ -2,7 +2,6 @@
 
 A Library to use SVG Based Maps interactively in SwiftUI.
 
-
 - Works **only with** .svg based maps
 - Allows you to modify **all** the provinces in the map with the attributes that SwiftUI's `Shape` provides
 - Drag, drop and animate the provinces, as well as the map itself.
@@ -32,6 +31,18 @@ https://github.com/GrandSir/InteractiveMap
     
 </td>
 </table>
+
+# Examples & ShowCase
+[3D Scaling Effect](./Examples/3DEffect.swift)
+
+![3d-map](https://user-images.githubusercontent.com/69051988/191280598-63e0f189-2391-4d3c-90c0-06b6ea8d72b3.gif)
+
+[Creepy Map](./Examples/creepyMap.swift)
+
+![creepy)](https://user-images.githubusercontent.com/69051988/191286548-91302f94-7b16-4427-82c5-503fe0a442e0.gif)
+
+[Mihmandar Province Choosing Screen](./Examples/Mihmandar.swift)
+![mihmandar](https://user-images.githubusercontent.com/69051988/191287726-49ff6d5a-ce56-49be-a235-d0c03710b16f.gif)
 
 <h2 style="text-align: center; padding: 10px">Usage</h2>
 
@@ -130,15 +141,3 @@ struct ContentView: View {
 `clickedProvince == province` basically compares the id's of the Provinces.
 
 ![clickable-map](https://user-images.githubusercontent.com/69051988/191283653-00cd4ebe-5ccd-48a1-b55b-3f70edfa3b14.gif)
-
-# Examples
-[3D Scaling Effect](./Examples/3DEffect.swift)
-
-![3d-map](https://user-images.githubusercontent.com/69051988/191280598-63e0f189-2391-4d3c-90c0-06b6ea8d72b3.gif)
-
-[Creepy Map](./Examples/creepyMap.swift)
-
-![creepy)](https://user-images.githubusercontent.com/69051988/191286548-91302f94-7b16-4427-82c5-503fe0a442e0.gif)
-
-[Mihmandar Province Choosing Screen](./Examples/Mihmandar.swift)
-![mihmandar](https://user-images.githubusercontent.com/69051988/191287726-49ff6d5a-ce56-49be-a235-d0c03710b16f.gif)
