@@ -50,7 +50,7 @@ public struct Attributes {
   An Unified Type of `ProvinceShape`s that is needed to draw an InteractiveMap
 
  -  Parameters:
- - content: returns a `Province` as parameter to the closure, which is needed to draw `ProvinceShape`'s
+ - content: takes a `Province` as closure parameter, which is needed to draw `ProvinceShape`'s
  - svgName: Filename needed to parse SVG. Can be written with or without .svg extension.
 
  - Resizes itself to the current frame. Takes all space when not specified
