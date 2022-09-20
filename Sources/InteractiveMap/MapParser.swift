@@ -8,6 +8,18 @@
 import SwiftUI
 
 /// Struct that holds every information of province
+/// - Parameters:
+/// - name: Name of the province that is specified inside <path> element .
+/// - id:  ID of the province that holds the `id` in <path> element.
+/// - path: an array of `PathExecutionCommand`s that is parsed from `MapParser`
+///
+/// An example from a SVG file:
+/// <path ... id="TUR2229" name="Aydin">
+///
+/// Where the `id` and `name` is wrapped into the `Province` in `XMLParser`
+///
+///
+@available(macOS 10.15, iOS 13.0, *)
 public struct Province : Identifiable {
     var name: String
     public var id: String
@@ -61,7 +73,7 @@ public class MapParser : NSObject, XMLParserDelegate {
         }
         
         guard let filePath = filePath else {
-            print("InteractiveMap Error: No File Found.")
+            print("InteractiveMap Error: File Not Found.")
             return
         }
         
