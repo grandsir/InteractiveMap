@@ -53,7 +53,7 @@ public struct MapView<Content> : View where Content : View {
     /// Closure that is needed to customize the map,
     var content: ((_ province: Province) -> Content)
 
-    init(svgName: String, @ViewBuilder content: @escaping (_ province: Province) -> Content) {
+    public init(svgName: String,  content: @escaping (_ province: Province) -> Content) {
         self.svgName = svgName
         self.content = content
     }

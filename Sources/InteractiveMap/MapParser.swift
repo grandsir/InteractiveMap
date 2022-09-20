@@ -8,10 +8,16 @@
 import SwiftUI
 
 /// Struct that holds every information of province
-struct Province : Identifiable {
+public struct Province : Identifiable {
     var name: String
-    var id: String
+    public var id: String
     var path : [PathExecutionCommand]
+    
+    public init(name: String, id: String, path: [PathExecutionCommand]) {
+        self.name = name
+        self.id = id
+        self.path = path
+    }
 }
 
 @available(macOS 10.15, iOS 13.0, *)
@@ -69,7 +75,7 @@ public class MapParser : NSObject, XMLParserDelegate {
     }
     
     // XMLParser Delegate
-    func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
+    public func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
 
         if elementName == "svg" {
             
@@ -197,9 +203,15 @@ public class MapParser : NSObject, XMLParserDelegate {
     }
 }
 
-struct PathExecutionCommand : CustomStringConvertible, Identifiable {
-    var id = UUID()
+public struct PathExecutionCommand : CustomStringConvertible, Identifiable {
+    public var id = UUID()
     var coordinate: CGPoint // (x, y)
     var command : String
-    var description: String { return "PathExecutionCommand(coordinate: \(coordinate), command: \(command))\n" }
+    public var description: String { return "PathExecutionCommand(coordinate: \(coordinate), command: \(command))\n" }
+    
+    
+    public init(coordinate : CGPoint, command: String) {
+        self.coordinate = coordinate
+        self.command = command
+    }
 }
