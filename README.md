@@ -51,8 +51,6 @@ https://github.com/GrandSir/InteractiveMap
     
 </td>
 <td>
-<br>
-
 </table>
 
 
