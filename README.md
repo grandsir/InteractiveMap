@@ -19,7 +19,7 @@ import InteractiveMap
 struct ContentView: View {
     @State private var clickedProvince: String = ""
     var body: some View {
-        InteractiveMap(svgName: "tr") { province in
+        MapView(svgName: "tr") { province in
             ProvinceShape(province: province)
                 .stroke(clickedProvince == province.id ? .purple : .black , lineWidth: 2)
                 .onTapGesture {
