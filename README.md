@@ -10,7 +10,7 @@ A Library to use SVG Based Maps in interactively in SwiftUI.
 
 ## Usage
 
-To draw your svg map in SwiftUI, use `InteractiveMap` View with a closure taking `Province` as the parameter.
+To draw your svg map in SwiftUI, use `MapView` with a closure taking `Province` as the parameter.
 
 ```swift
 import SwiftUI
