@@ -75,4 +75,5 @@ struct ContentView: View {
 ```
 <img src="Assets/map_customized_with_attributes.png" width=700 alt="Custom Attributes Map">
 <hr>
+
 Map with custom attributes
