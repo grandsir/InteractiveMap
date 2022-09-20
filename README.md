@@ -129,7 +129,7 @@ struct ContentView: View {
 ```
 `clickedProvince == province` basically compares the id's of the Provinces.
 
-https://user-images.githubusercontent.com/69051988/191269654-5084ffb5-29a4-47fa-be0c-cb7c7b59aee0.mov
+![clickable-map](https://user-images.githubusercontent.com/69051988/191283653-00cd4ebe-5ccd-48a1-b55b-3f70edfa3b14.gif)
 
 # Examples
 [3D Scaling Effect](./Examples/3DEffect.swift)
