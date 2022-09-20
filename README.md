@@ -27,4 +27,30 @@ struct ContentView: View {
 ```
 InteractiveMap resizes itself to the assigned frame, and takes all available space by default.
 
-You can do anything with `ProvinceShape` that SwiftUI allows you to do with `Shape`s.
+### Installation 
+Requires iOS 13+. InteractiveMap currently can be installed only through the Swift Package Manager.
+
+
+<table>
+<tr>
+<td>
+<strong>
+Swift Package Manager
+</strong>
+<br>
+Add the Package URL:
+</td>
+</tr>
+<tr>
+<td>
+<br>
+```
+https://github.com/GrandSir/InteractiveMap
+```
+</td>
+</tr>
+</table>
+
+
+
+
