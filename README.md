@@ -70,7 +70,7 @@ MapView(svgName: "tr") {
 
 Even though `.initWithAttributes` saves time for simple customization, it is neither highly customizable nor editable.
 
-Since `ProvinceShape` is a `Shape`, you can add any attribute to ProvinceShape that you can add to Shape.
+Since `ProvinceShape` is a `Shape`, you can add any attribute to `ProvinceShape` that you can add to `Shape`.
 ```swift
 MapView(svgName: "tr") {
     ProvinceShape($0)
