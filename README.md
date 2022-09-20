@@ -114,7 +114,7 @@ struct ContentView: View {
                     .stroke(clickedProvince == province ? .cyan : .red, lineWidth: 1)
                     .shadow(color: clickedProvince == province ? .cyan : .red,  radius: 3)
                     .shadow(color: clickedProvince == province ? .cyan : .clear , radius: 3) // to increase the glow amount
-                    .background(ProvinceShape(province).fill(Color(white: 0.15)))
+                    .background(ProvinceShape(province).fill(Color(white: 0.15))) // filling the provinces
                     .shadow(color: clickedProvince == province ? .black : .clear , radius: 5, y: 1) // for depth
 
                     .onTapGesture {
