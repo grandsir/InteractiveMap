@@ -80,3 +80,53 @@ MapView(svgName: "tr") {
 }
 ```
 <img src="Assets/map_shadow.png" width=700 alt="Shadow Map">
+
+### Handling Clicks
+`Province` is a `Struct` that contains all the information about province.
+It has 3 variables inside it. `id`, `path` and `name`
+
+`id` is the Unique Identifier that's being parsed directly from SVG
+
+Most of the Map SVG's (NOT ALL!) has the `id` attribute in all in their `<path>` element like this:
+
+`<path ... id="<id>", name="<name>">`
+
+`MapParser`, defined in `MapParser.swift` parses that element and stores them in `Province` struct.
+
+If there is not any `id` attribute in path, MapParser automatically creates an UUID String.
+
+But if you're going to store that id in somewhere, be aware that UUID String is automaticaly regenerated every time MapView is being drawed.
+
+```swift
+import SwiftUI
+import InteractiveMap
+
+struct ContentView: View {
+    @State private var clickedProvince = Province.EmptyProvince
+    var body: some View {
+        VStack {
+            Text(clickedProvince.name.isEmpty ? "" : "\(clickedProvince.name) is clicked!" )
+                .font(.largeTitle)
+                .padding(.bottom, 15)
+            MapView(svgName: "tr") { province in // is a Province
+                ProvinceShape(province)
+                    .stroke(clickedProvince == province ? .cyan : .red, lineWidth: 1)
+                    .shadow(color: clickedProvince == province ? .cyan : .red,  radius: 3)
+                    .shadow(color: clickedProvince == province ? .cyan : .clear , radius: 3)
+                    .background(ProvinceShape(province).fill(Color(white: 0.15)))
+                    .shadow(color: clickedProvince == province ? .black : .clear , radius: 5, y: 1)
+
+                    .onTapGesture {
+                        clickedProvince = province
+                    }
+                    .zIndex(clickedProvince == province ? 2 : 1) // this is REQUIRED because ProvinceShapes overlap, resulting in an ugly appearance
+                    .animation(.easeInOut(duration: 0.3), value: clickedProvince)
+            }
+        }
+    }
+}
+```
+`clickedProvince == province` basically compares the id's of the Provinces.
+
+https://user-images.githubusercontent.com/69051988/191269654-5084ffb5-29a4-47fa-be0c-cb7c7b59aee0.mov
+
