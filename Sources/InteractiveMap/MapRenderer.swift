@@ -135,14 +135,14 @@ extension ProvinceShape {
     /// - `strokeWidth : Double = 1.2,`
     /// - `strokeColor: Color = .black,`
     /// - `background: Color = Color(.sRGB, white: 0.5, opacity: 1)`
-    func initWithAttributes() -> some View {
+    public func initWithAttributes() -> some View {
         let attributes = Attributes()
         return self
             .stroke(attributes.strokeColor, lineWidth: attributes.strokeWidth)
             .background(self.fill(attributes.background))
     }
     
-    func initWithAttributes(_ attributes : Attributes) -> some View {
+    public func initWithAttributes(_ attributes : Attributes) -> some View {
         self
             .stroke(attributes.strokeColor, lineWidth: attributes.strokeWidth)
             .background(self.fill(attributes.background))
