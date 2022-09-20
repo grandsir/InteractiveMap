@@ -108,6 +108,7 @@ struct ContentView: View {
             Text(clickedProvince.name.isEmpty ? "" : "\(clickedProvince.name) is clicked!" )
                 .font(.largeTitle)
                 .padding(.bottom, 15)
+
             MapView(svgName: "tr") { province in // is a Province
                 ProvinceShape(province)
                     .stroke(clickedProvince == province ? .cyan : .red, lineWidth: 1)
