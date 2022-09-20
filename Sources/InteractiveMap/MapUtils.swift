@@ -105,7 +105,7 @@ func executeCommand(pathCommands: [PathExecutionCommand]) -> Path {
 ///
 @available(macOS 10.15, iOS 13.0, *)
 public struct Province : Identifiable {
-    var name: String
+    public var name: String
     public var id: String
     var path : [PathExecutionCommand]
     
