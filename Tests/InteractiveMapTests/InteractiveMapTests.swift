@@ -6,6 +6,6 @@ final class InteractiveMapTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        XCTAssertEqual(InteractiveMap().text, "Hello, World!")
+        XCTAssertEqual(MapView().text, "Hello, World!")
     }
 }

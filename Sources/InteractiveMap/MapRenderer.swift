@@ -34,7 +34,7 @@ struct ProvinceShape : Shape {
 
     struct ContentView : View {
         var body: some View {
-            InteractiveMap(svgName: "tr) { province in
+            MapView(svgName: "tr) { province in
                 ProvinceShape(province: province)
                     .stroke()
             }
@@ -46,7 +46,7 @@ struct ProvinceShape : Shape {
  
 */
 @available(iOS 13.0, macOS 10.15, *)
-struct InteractiveMap<Content> : View where Content : View {
+struct MapView<Content> : View where Content : View {
     @State private var mapParser : MapParser?
     /// name of the SVG
     let svgName : String
