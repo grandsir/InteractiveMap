@@ -53,8 +53,6 @@ struct ContentView: View {
 MapView resizes itself to the assigned frame, and takes all available space by default.
 
 <img src="Assets/map_default.png" width=700 alt="Default Map">
-<hr>
-<div style="text-align: center; color: gray"> Map with default attributes </div>
 
 # Customization
 
@@ -74,6 +72,3 @@ struct ContentView: View {
 }
 ```
 <img src="Assets/map_customized_with_attributes.png" width=700 alt="Custom Attributes Map">
-<hr>
-
-Map with custom attributes
