@@ -50,7 +50,6 @@ https://github.com/GrandSir/InteractiveMap
 ```
     
 </td>
-<td>
 </table>
 
 
