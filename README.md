@@ -78,7 +78,5 @@ MapView(svgName: "tr") {
         .shadow(color: .cyan, radius: 3, x: 0, y: 0)
         .background(ProvinceShape($0).fill(Color(white: 0.15)))
 }
-
-<img src="Assets/map_shadow.png" width=700 alt="Shadow Map">
-
 ```
+<img src="Assets/map_shadow.png" width=700 alt="Shadow Map">
