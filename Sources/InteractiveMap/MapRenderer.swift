@@ -11,10 +11,10 @@ import SwiftUI
  A shape that unifies the entire map when combined with other shapes.
  */
 @available(iOS 13.0, macOS 10.15, *)
-struct ProvinceShape : Shape {
+public struct ProvinceShape : Shape {
     let province :  Province
     
-    func path(in rect: CGRect) -> Path {
+    public func path(in rect: CGRect) -> Path {
         let path = executeCommand(pathCommands: province.path)
         return path
     }
@@ -46,7 +46,7 @@ struct ProvinceShape : Shape {
  
 */
 @available(iOS 13.0, macOS 10.15, *)
-struct MapView<Content> : View where Content : View {
+public struct MapView<Content> : View where Content : View {
     @State private var mapParser : MapParser?
     /// name of the SVG
     let svgName : String
@@ -58,7 +58,7 @@ struct MapView<Content> : View where Content : View {
         self.content = content
     }
 
-    var body: some View {
+    public var body: some View {
         GeometryReader { geo in
             ZStack {
                 // the frame is not initialized yet. That is, we're waiting  for.onAppear to be triggered.

@@ -15,7 +15,7 @@ struct Province : Identifiable {
 }
 
 @available(macOS 10.15, iOS 13.0, *)
-class MapParser : NSObject, XMLParserDelegate {
+public class MapParser : NSObject, XMLParserDelegate {
     
     var size: CGSize
     var provinces: [Province] = []
