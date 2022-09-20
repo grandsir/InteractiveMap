@@ -44,14 +44,15 @@ Add the Package URL:
 <tr>
 <td>
 <br>
+    
 ```
 https://github.com/GrandSir/InteractiveMap
 ```
+    
 </td>
 <td>
 <br>
-</td>
-</tr>
+
 </table>
 
 
