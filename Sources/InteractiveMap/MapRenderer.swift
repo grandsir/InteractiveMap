@@ -18,6 +18,10 @@ public struct ProvinceShape : Shape {
         let path = executeCommand(pathCommands: province.path)
         return path
     }
+    
+    public init (province: Province) {
+        self.province = province
+    }
 }
 
 /**
