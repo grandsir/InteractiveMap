@@ -48,6 +48,8 @@ https://github.com/GrandSir/InteractiveMap
 
 <h2 style="text-align: center; padding: 10px">Usage</h2>
 
+# SwiftUI
+
 To draw your svg map in SwiftUI, use `MapView` with a closure taking `Province` as the parameter.
 
 ```swift
@@ -143,3 +145,11 @@ struct ContentView: View {
 `clickedProvince == province` basically compares the id's of the Provinces.
 
 ![clickable-map](https://user-images.githubusercontent.com/69051988/191283653-00cd4ebe-5ccd-48a1-b55b-3f70edfa3b14.gif)
+
+# UIKit
+
+soon
+
+# SpriteKit
+
+soon
