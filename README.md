@@ -7,6 +7,8 @@ A Library to use SVG Based Maps interactively in SwiftUI.
 - Allows you to modify **all** the provinces in the map with the attributes that SwiftUI's `Shape` provides
 - Drag, drop and animate the provinces, as well as the map itself.
 
+Note! SVG Parsing is not yet in its final form, so some SVGs may not be parsed correctly. But as far as I can see almost every map is drawn correctly. You can see the maps I tried in the [Maps](./Maps) section.
+
 <h3 style ="text-align: center">Installation</h3> 
 <p>Requires <b>iOS 13+</b> 
 
