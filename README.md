@@ -56,6 +56,8 @@ https://github.com/GrandSir/InteractiveMap
 
 To draw your svg map in SwiftUI, use `MapView` with a closure taking `Province` as the parameter.
 
+MapView uses `ProvinceShape`s to draw all the paths defined in SVG. But it needs to know which `Province` will be drawn, that is, MapView works just like `ForEach { index in } ` and returns an iterable closure returning `Province` as parameter, which contains all the information about `Path`s defined inside svg.
+
 ```swift
 import SwiftUI
 import InteractiveMap
