@@ -10,7 +10,7 @@ import SwiftUI
 /**
  A shape that unifies the entire map when combined with other `InteractiveShape`s.
  - Parameters :
- - province: A struct that holds everything about province (`id`, `name`, `path`, `rect`),
+ - province: A struct that holds everything about province (`id`, `name`, `path`),
  */
 @available(iOS 13.0, macOS 10.15, *)
 public struct InteractiveShape : Shape {
@@ -108,9 +108,6 @@ public struct InteractiveMap<Content> : View where Content : View{
         self.content = content
     }
 
-    @State private var width : CGFloat = .zero
-    @State private var height : CGFloat = .zero
-
     @State private var pathData = [PathData]()
     public var body: some View {
         GeometryReader { geo in
@@ -123,12 +120,8 @@ public struct InteractiveMap<Content> : View where Content : View{
                     }
                 }
             }
-            .frame(width: width, height: height, alignment: .center)
-            .border(.green, width: 5)
             .onAppear {
-                // scaling paths to fit to screen
                 let parser = MapParser(svgName: svgName, size: geo.size)
-                
                 pathData = parser.initPathData()
             }
         }
