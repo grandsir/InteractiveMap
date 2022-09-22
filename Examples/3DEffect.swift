@@ -9,22 +9,22 @@ import SwiftUI
 import InteractiveMap
 
 struct ContentView: View {
-    @State private var clickedProvince = Province.EmptyProvince
+    @State private var clickedPath = PathData.EmptyPath
     var body: some View {
         VStack {
-            Text(clickedProvince.name.isEmpty ? "" : "\(clickedProvince.name) is clicked!" )
+            Text(clickedPath.name.isEmpty ? "" : "\(clickedPath.name) is clicked!" )
                 .font(.largeTitle)
                 .padding(.bottom, 15)
-            MapView(svgName: "tr") { province in // is a Province
-                ProvinceShape(province)
+            InteractiveMap(svgName: "tr") { pathData in 
+                InteractiveShape(from: pathData)
                     .initWithAttributes()
-                    .shadow(color: clickedProvince == province ? .white : .clear, radius: 6)
+                    .shadow(color: clickedPath == pathData ? .white : .clear, radius: 6)
                     .onTapGesture {
-                        clickedProvince = province
+                        clickedPath = pathData
                     }
-                    .scaleEffect(clickedProvince == province ? 1.4 : 1)
-                    .animation(.easeInOut(duration: 0.2), value: clickedProvince)
-                    .zIndex(clickedProvince == province ? 2 : 1)
+                    .scaleEffect(clickedPath == pathData ? 1.4 : 1)
+                    .animation(.easeInOut(duration: 0.2), value: clickedPath)
+                    .zIndex(clickedPath == pathData ? 2 : 1)
             }
         }
     }

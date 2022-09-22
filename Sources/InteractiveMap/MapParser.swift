@@ -19,9 +19,10 @@ public class MapParser : NSObject, XMLParserDelegate {
     var minY = Double.greatestFiniteMagnitude
     var maxY = -Double.greatestFiniteMagnitude
     
-    
     var width : CGFloat = .zero
     var height : CGFloat = .zero
+    
+    var bounds : CGRect = .zero
 
     
     /// Filename needed to parse SVG.
@@ -63,33 +64,6 @@ public class MapParser : NSObject, XMLParserDelegate {
     
     // XMLParser Delegate
     public func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
-
-        if elementName == "svg" {
-            
-            if let vBox = attributeDict["viewbox"]?.split(separator: " ") {
-                width = CGFloat(Int(vBox[2]) ?? 0)
-                height = CGFloat(Int(vBox[2]) ?? 0)
-            }
-            
-            else {
-                guard let vBox = attributeDict["viewBox"]?.split(separator: " ") else {
-                    if let w = attributeDict["width"] {
-                        width =  CGFloat(Int(w) ?? 0)
-                    }
-                    if let h = attributeDict["height"] {
-                        height =  CGFloat(Int(h) ?? 0)
-                    }
-                    return
-                }
-                
-                width = CGFloat(Int(vBox[2]) ?? 0)
-                height = CGFloat(Int(vBox[3]) ?? 0)
-
-                
-            }
-            let scaleMultiplier = size.width
-            scaleAmount = max(scaleMultiplier / width, scaleMultiplier / height)
-        }
         
         /*
          *
@@ -97,9 +71,7 @@ public class MapParser : NSObject, XMLParserDelegate {
          * element. That's why we're looping through paths.
          *
          */
-        
         if (elementName == "path") {
-            
             var province = Province(name: attributeDict["name"] ?? attributeDict["id"] ?? "undefined", id: attributeDict["id"] ?? (attributeDict["name"] ?? UUID().uuidString), path: [])
             
             // Empty character
@@ -122,7 +94,6 @@ public class MapParser : NSObject, XMLParserDelegate {
              
              *****************************************************************************
              */
-            
             for char in attributeDict["d"]! {
                 if (char.isLetter) {
                     // Initialize first command
@@ -143,7 +114,7 @@ public class MapParser : NSObject, XMLParserDelegate {
                         scanner.charactersToBeSkipped = ["\n", ","]
                         
                         // Scan for coordinates
-
+                        
                         while(!scanner.isAtEnd) {
                             let value = scanner.scanDouble()
                             if let value = value {
@@ -187,6 +158,62 @@ public class MapParser : NSObject, XMLParserDelegate {
             }
             provinces.append(province)
         }
+    }
+    
+    public func parserDidEndDocument(_ parser: XMLParser) {
+        self.computeBounds()
+    }
+    
+    
+    public func computeBounds() {
+        bounds.origin.x = CGFloat.greatestFiniteMagnitude
+        bounds.origin.y = CGFloat.greatestFiniteMagnitude
+        var maxx = -CGFloat.greatestFiniteMagnitude
+        var maxy = -CGFloat.greatestFiniteMagnitude
+        
+        for province in provinces {
+            let b = executeCommand(svgData: PathData(name: province.name, id: province.id, path: province.path, svgScaleAmount: CGAffineTransform(scaleX: 1, y: 1))).boundingRect;
+            
+            if(b.origin.x < bounds.origin.x) {
+                bounds.origin.x = b.origin.x
+            }
+            
+            if(b.origin.y < bounds.origin.y){
+                bounds.origin.y = b.origin.y;
+            }
+            if(b.origin.x + b.size.width > maxx){
+                maxx = b.origin.x + b.size.width;
+            }
+            
+            if(b.origin.y + b.size.height > maxy){
+                maxy = b.origin.y + b.size.height;
+            }
+        }
+        
+        bounds.size.width = maxx - bounds.origin.x;
+        bounds.size.height = maxy - bounds.origin.y;
+    }
+    
+    public func initPathData() -> [PathData] {
+        
+        var pathData = [PathData]()
+        
+        let scaleHorizontal = self.size.width / self.bounds.width;
+        let scaleVertical = self.size.height / self.bounds.height;
+        let scale = min(scaleHorizontal, scaleVertical);
+        
+        var scaleTransform = CGAffineTransform(scaleX: scale, y: scale)
+        scaleTransform = scaleTransform.translatedBy(x: -self.bounds.origin.x, y: -self.bounds.origin.y)
+        
+        width = self.bounds.width
+        height = self.bounds.height
+        
+        // I preferred creating a new PathData struct instead of forcing to use something like pathData.province.id
+        for province in provinces {
+            pathData.append(PathData(name: province.name, id: province.id, path: province.path, svgScaleAmount: scaleTransform))
+        }
+        
+        return pathData
     }
 }
 

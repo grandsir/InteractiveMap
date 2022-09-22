@@ -8,15 +8,14 @@
 import SwiftUI
 
 @available(macOS 10.15, iOS 13.0, *)
-func executeCommand(pathCommands: [PathExecutionCommand]) -> Path {
+func executeCommand(svgData: PathData) -> Path {
     var path = Path()
     
     var lastPoint : CGPoint = .zero
     var control1 : CGPoint? = nil
     var control2 : CGPoint? = nil
     
-    for pathExecutionCommand in pathCommands {
-        
+    for pathExecutionCommand in svgData.path {
         if pathExecutionCommand.command == "M" {
             path.move(to: pathExecutionCommand.coordinate)
             lastPoint = pathExecutionCommand.coordinate
@@ -84,10 +83,7 @@ func executeCommand(pathCommands: [PathExecutionCommand]) -> Path {
             lastPoint = CGPoint(x: pathExecutionCommand.coordinate.x + lastPoint.x, y: pathExecutionCommand.coordinate.y + lastPoint.y)
         }
     }
-    
-    
-    return path
-    
+    return path.applying(svgData.svgScaleAmount)
 }
 
 
@@ -117,17 +113,33 @@ public struct Province : Identifiable {
 }
 
 
+@available(iOS 13.0, macOS 10.15, *)
+public struct PathData : Identifiable {
+    public var id : String
+    public var name: String
+    public var svgScaleAmount: CGAffineTransform = .identity
+    var path : [PathExecutionCommand]
+
+
+    public init(name: String, id: String, path: [PathExecutionCommand], svgScaleAmount: CGAffineTransform) {
+        self.name = name
+        self.id = id
+        self.path = path
+        self.svgScaleAmount = svgScaleAmount
+    }
+}
+
 
 @available(iOS 13.0, macOS 10.15, *)
-extension Province {
-    public static var EmptyProvince : Province {
-        Province(name: "", id: "", path: [PathExecutionCommand(coordinate: CGPoint(x: 0, y: 0), command: "")])
+extension PathData {
+    public static var EmptyPath : PathData {
+        PathData(name: "", id: "", path: [PathExecutionCommand(coordinate: CGPoint(x: 0, y: 0), command: "")], svgScaleAmount: .identity)
     }
 }
 
 @available(iOS 13.0, macOS 10.15, *)
-extension Province : Equatable {
-    public static func == (lhs: Province, rhs: Province) -> Bool {
+extension PathData : Equatable {
+    public static func == (lhs: PathData, rhs: PathData) -> Bool {
         lhs.id == rhs.id
     }
 }

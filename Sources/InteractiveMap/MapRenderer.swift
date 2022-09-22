@@ -8,21 +8,21 @@
 import SwiftUI
 
 /**
- A shape that unifies the entire map when combined with other `ProvinceShape`s.
+ A shape that unifies the entire map when combined with other `InteractiveShape`s.
  - Parameters :
  - province: A struct that holds everything about province (`id`, `name`, `path`, `rect`),
  */
 @available(iOS 13.0, macOS 10.15, *)
-public struct ProvinceShape : Shape {
-    let province :  Province
+public struct InteractiveShape : Shape {
+    let pathData : PathData
     
     public func path(in rect: CGRect) -> Path {
-        let path = executeCommand(pathCommands: province.path)
+        let path = executeCommand(svgData : pathData)
         return path
     }
     
-    public init (_ province: Province) {
-        self.province = province
+    public init (_ pathData: PathData) {
+        self.pathData = pathData
     }
 }
 
@@ -47,32 +47,32 @@ public struct Attributes {
 }
 
 /**
-  An Unified Type of `ProvinceShape`s that is needed to draw an InteractiveMap
+  An Unified Type of `InteractiveShape`s that is needed to draw an InteractiveMap
 
  -  Parameters:
- - content: takes a `Province` as closure parameter, which is needed to draw `ProvinceShape`'s
+ - content: takes a `Province` as closure parameter, which is needed to draw `InteractiveShape`'s
  - svgName: Filename needed to parse SVG. Can be written with or without .svg extension.
 
  - Resizes itself to the current frame. Takes all space when not specified
  
-  To draw `MapView` to screen, you have to just provide an `svg` name and `Province` as closure parameter
+  To draw `InteractiveMap` to screen, you have to just provide an `svg` name and `Province` as closure parameter
   ```
     struct ContentView : View {
         var body: some View {
-            MapView(svgName: "tr) { province
-                ProvinceShape(province: province)
+            InteractiveMap(svgName: "tr") { pathData
+                InteractiveShape(pathData)
             }
         }
     }
  ```
- `MapView` does not use any default attributes if not specified.
+ `InteractiveMap` does not use any default attributes if not specified.
  
-  if you want `MapView` to use be colored that in any manner, you can either use `.initWithAttributes`
+  if you want `InteractiveMap` to use be colored that in any manner, you can either use `.initWithAttributes`
   ```
     struct ContentView : View {
         var body: some View {
-            MapView(svgName: "tr) { province
-                ProvinceShape(province: province)
+            InteractiveMap(svgName: "tr") { pathData
+                InteractiveShape(pathData)
                     .initWithAttributes()
             }
         }
@@ -86,8 +86,8 @@ public struct Attributes {
  ```
    struct ContentView : View {
        var body: some View {
-           MapView(svgName: "tr") { province
-               ProvinceShape(province: province)
+           InteractiveMap(svgName: "tr") { pathData
+                InteractiveShape(pathData)
                    .stroke(Color.red)
            }
        }
@@ -95,42 +95,49 @@ public struct Attributes {
 ```
  */
 @available(iOS 13.0, macOS 10.15, *)
-public struct MapView<Content> : View where Content : View{
-    
-    /// MapParser that parses SVG map
-    @State private var mapParser : MapParser?
-    
+public struct InteractiveMap<Content> : View where Content : View{
     /// name of the SVG, can be written with or without file extension
     let svgName : String
     
     /// Closure that is needed to customize the map,
-    var content: ((_ province: Province) -> Content)
+    var content: ((_ pathData: PathData) -> Content)
     
     
-    public init(svgName: String, @ViewBuilder content: @escaping (_ province: Province) -> Content) {
+    public init(svgName: String, @ViewBuilder content: @escaping (_ province: PathData) -> Content) {
         self.svgName = svgName
         self.content = content
     }
-    
+
+    @State private var width : CGFloat = .zero
+    @State private var height : CGFloat = .zero
+
+    @State private var pathData = [PathData]()
     public var body: some View {
         GeometryReader { geo in
             ZStack {
-                // the frame is not initialized yet. That is, we're waiting for .onAppear to be triggered.
-                if let mapParser = mapParser {
-                    ForEach(mapParser.provinces) { province in
-                        content(province)
+                // the data is not initialized yet. That is, we're waiting for .onAppear to be triggered.
+                if !pathData.isEmpty {
+                    ForEach(pathData) { pathData in
+                        content(pathData)
+                        
                     }
                 }
             }
+            .frame(width: width, height: height, alignment: .center)
+            .border(.green, width: 5)
             .onAppear {
-                mapParser = MapParser(svgName: svgName, size: geo.size)
+                // scaling paths to fit to screen
+                let parser = MapParser(svgName: svgName, size: geo.size)
+                
+                pathData = parser.initPathData()
             }
         }
     }
 }
 
+
 @available(iOS 13.0, macOS 10.15, *)
-extension ProvinceShape {
+extension InteractiveShape {
     /// Uses default Attributes for coloring map
     /// - `strokeWidth : Double = 1.2,`
     /// - `strokeColor: Color = .black,`
