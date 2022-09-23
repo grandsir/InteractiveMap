@@ -55,7 +55,7 @@ https://github.com/GrandSir/InteractiveMap
 # SwiftUI
 To draw your svg map in SwiftUI, use `InteractiveMap` with a closure taking `PathData` as the parameter.
 
-`InteractiveMap` uses `InteractiveShape`s to draw all the paths defined in SVG. But it needs to know which `Path` will be drawn, that is, `InteractiveMap {pathData in }` works just like `ForEach { index in }` and returns an iterable closure returning `PathData` as parameter, which contains all the information about `Path`s defined inside svg.
+`InteractiveMap` uses `InteractiveShape`s to draw all the paths defined in SVG. But it needs to know which `Path` will be drawn, that is, `InteractiveMap { pathData in }` works just like `ForEach { index in }` and returns an iterable closure returning `PathData` as parameter, which contains all the information about `Path`s defined inside svg.
 
 ```swift
 import SwiftUI
