@@ -102,7 +102,7 @@ InteractiveMap(svgName: "tr") {
 <img src="Assets/map_shadow.png" width=700 alt="Shadow Map">
 
 ### Handling Clicks
-`Province` is a `Struct` that contains all the information about province.
+`PathData` is a `Struct` that contains all the information about all the paths, in our map example, they are districts and provinces.
 It has 4 variables inside it. `id`, `path` and `name`, and `svgScaleAmount`
 
 `id` is the Unique Identifier that's being parsed directly from SVG
