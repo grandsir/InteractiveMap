@@ -104,7 +104,7 @@ InteractiveMap(svgName: "tr") {
 ### Handling Clicks
 `PathData` is a `Struct` that contains all the information about all the paths, in our map example, they are districts and provinces.
 
-It has 4 variables inside it. `id`, `path` and `name`, and `svgScaleAmount`
+It has 5 variables inside it. `id`, `path` and `name`, `boundingBox` and `svgBounds`
 
 `id` is the Unique Identifier that's being parsed directly from SVG
 
