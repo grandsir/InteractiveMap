@@ -8,7 +8,7 @@
 import SwiftUI
 
 @available(macOS 10.15, iOS 13.0, *)
-func executeCommand(svgData: PathData) -> Path {
+func executeCommand(svgData: PathData, rect: CGRect) -> Path {
     var path = Path()
     
     var lastPoint : CGPoint = .zero
@@ -83,11 +83,23 @@ func executeCommand(svgData: PathData) -> Path {
             lastPoint = CGPoint(x: pathExecutionCommand.coordinate.x + lastPoint.x, y: pathExecutionCommand.coordinate.y + lastPoint.y)
         }
     }
-    return path.applying(svgData.svgScaleAmount)
+    
+    if let svgBounds = svgData.svgBounds {
+        let scaleHorizontal = rect.size.width / (svgBounds.width) ;
+        let scaleVertical = rect.size.height / (svgBounds.height) ;
+        let scale = min(scaleHorizontal, scaleVertical);
+        
+        var scaleTransform = CGAffineTransform(scaleX: scale, y: scale)
+        scaleTransform = scaleTransform.translatedBy(x: -svgBounds.origin.x, y: -svgBounds.origin.y)
+        return path.applying(scaleTransform)
+        
+    }
+    return path
+    
 }
 
 
-/// Struct that holds every information of province
+/// Struct that holds every information of paths
 /// - Parameters:
 /// - name: Name of the province that is specified inside <path> element .
 /// - id:  ID of the province that holds the `id` in <path> element.
@@ -96,44 +108,33 @@ func executeCommand(svgData: PathData) -> Path {
 /// An example from a SVG file:
 /// <path ... id="TUR2229" name="Aydin">
 ///
-/// Where the `id` and `name` is wrapped into the `Province` in `XMLParser`
+/// Where the `id` and `name` is wrapped into the `PathData` in `XMLParser`
 ///
 ///
-@available(macOS 10.15, iOS 13.0, *)
-public struct Province : Identifiable {
-    public var name: String
-    public var id: String
-    var path : [PathExecutionCommand]
+@available(iOS 13.0, macOS 10.15, *)
+public struct PathData : Identifiable {
+    public var id : String = ""
+    public var name: String = ""
+    public var boundingBox: CGRect? = nil
+    public var svgBounds: CGRect? = nil
+    var path = [PathExecutionCommand]()
+
+
+    public init(name: String, id: String, path: [PathExecutionCommand], boundingBox: CGRect) {
+        self.name = name
+        self.id = id
+        self.path = path
+        self.boundingBox = boundingBox
+    }
     
     public init(name: String, id: String, path: [PathExecutionCommand]) {
         self.name = name
         self.id = id
         self.path = path
     }
-}
-
-
-@available(iOS 13.0, macOS 10.15, *)
-public struct PathData : Identifiable {
-    public var id : String
-    public var name: String
-    public var svgScaleAmount: CGAffineTransform = .identity
-    var path : [PathExecutionCommand]
-
-
-    public init(name: String, id: String, path: [PathExecutionCommand], svgScaleAmount: CGAffineTransform) {
-        self.name = name
-        self.id = id
-        self.path = path
-        self.svgScaleAmount = svgScaleAmount
-    }
-}
-
-
-@available(iOS 13.0, macOS 10.15, *)
-extension PathData {
-    public static var EmptyPath : PathData {
-        PathData(name: "", id: "", path: [PathExecutionCommand(coordinate: CGPoint(x: 0, y: 0), command: "")], svgScaleAmount: .identity)
+    
+    public init() {
+        
     }
 }
 

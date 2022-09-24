@@ -11,7 +11,7 @@ import SwiftUI
 public class MapParser : NSObject, XMLParserDelegate {
     
     var size: CGSize
-    var provinces: [Province] = []
+    var pathDatas: [PathData] = []
     var scaleAmount = 1.0
     
     var minX = Double.greatestFiniteMagnitude
@@ -72,7 +72,7 @@ public class MapParser : NSObject, XMLParserDelegate {
          *
          */
         if (elementName == "path") {
-            var province = Province(name: attributeDict["name"] ?? attributeDict["id"] ?? "undefined", id: attributeDict["id"] ?? (attributeDict["name"] ?? UUID().uuidString), path: [])
+            var pathData = PathData(name: attributeDict["name"] ?? attributeDict["id"] ?? "undefined", id: attributeDict["id"] ?? (attributeDict["name"] ?? UUID().uuidString), path: [])
             
             // Empty character
             var currentCommand: Character = "\0"
@@ -125,7 +125,7 @@ public class MapParser : NSObject, XMLParserDelegate {
                                     minY = min(value, minY)
                                     maxY = max(value, maxY)
                                     
-                                    province.path.append(PathExecutionCommand(coordinate: CGPoint(x: x, y: y), command: String(currentCommand)))
+                                    pathData.path.append(PathExecutionCommand(coordinate: CGPoint(x: x, y: y), command: String(currentCommand)))
                                 }
                                 
                                 else {
@@ -150,13 +150,13 @@ public class MapParser : NSObject, XMLParserDelegate {
                     
                     if (char == "z" || char == "Z") {
                         // .zero stands as a placeholder.
-                        province.path.append(PathExecutionCommand(coordinate: .zero, command: String(char)))
+                        pathData.path.append(PathExecutionCommand(coordinate: .zero, command: String(char)))
                     }
                     continue
                 }
                 currentCoordinates.append(char)
             }
-            provinces.append(province)
+            pathDatas.append(pathData)
         }
     }
     
@@ -170,9 +170,10 @@ public class MapParser : NSObject, XMLParserDelegate {
         bounds.origin.y = CGFloat.greatestFiniteMagnitude
         var maxx = -CGFloat.greatestFiniteMagnitude
         var maxy = -CGFloat.greatestFiniteMagnitude
-        
-        for province in provinces {
-            let b = executeCommand(svgData: PathData(name: province.name, id: province.id, path: province.path, svgScaleAmount: CGAffineTransform(scaleX: 1, y: 1))).boundingRect;
+
+        for index in 0..<pathDatas.count {
+            var path = pathDatas[index]
+            let b = executeCommand(svgData: path, rect: CGRect(x: 0, y: 0, width: size.width, height: size.height)).boundingRect;
             
             if(b.origin.x < bounds.origin.x) {
                 bounds.origin.x = b.origin.x
@@ -188,32 +189,21 @@ public class MapParser : NSObject, XMLParserDelegate {
             if(b.origin.y + b.size.height > maxy){
                 maxy = b.origin.y + b.size.height;
             }
+            path.boundingBox = b
+            
+            pathDatas[index] = path
         }
         
         bounds.size.width = maxx - bounds.origin.x;
         bounds.size.height = maxy - bounds.origin.y;
-    }
-    
-    public func initPathData() -> [PathData] {
         
-        var pathData = [PathData]()
-        
-        let scaleHorizontal = self.size.width / self.bounds.width;
-        let scaleVertical = self.size.height / self.bounds.height;
-        let scale = min(scaleHorizontal, scaleVertical);
-        
-        var scaleTransform = CGAffineTransform(scaleX: scale, y: scale)
-        scaleTransform = scaleTransform.translatedBy(x: -self.bounds.origin.x, y: -self.bounds.origin.y)
-        
-        width = self.bounds.width
-        height = self.bounds.height
-        
-        // I preferred creating a new PathData struct instead of forcing to use something like pathData.province.id
-        for province in provinces {
-            pathData.append(PathData(name: province.name, id: province.id, path: province.path, svgScaleAmount: scaleTransform))
+        for index in 0..<pathDatas.count {
+            var path = pathDatas[index]
+            
+            path.svgBounds = bounds
+            
+            pathDatas[index] = path
         }
-        
-        return pathData
     }
 }
 

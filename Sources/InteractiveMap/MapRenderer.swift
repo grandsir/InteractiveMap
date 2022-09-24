@@ -10,14 +10,14 @@ import SwiftUI
 /**
  A shape that unifies the entire map when combined with other `InteractiveShape`s.
  - Parameters :
- - province: A struct that holds everything about province (`id`, `name`, `path`),
+ - pathData: A struct that holds everything about path (`id`, `name`, `path`, `boundingRect`),
  */
 @available(iOS 13.0, macOS 10.15, *)
 public struct InteractiveShape : Shape {
     let pathData : PathData
     
     public func path(in rect: CGRect) -> Path {
-        let path = executeCommand(svgData : pathData)
+        let path = executeCommand(svgData : pathData, rect: rect)
         return path
     }
     
@@ -50,7 +50,7 @@ public struct Attributes {
   An Unified Type of `InteractiveShape`s that is needed to draw an InteractiveMap
 
  -  Parameters:
- - content: takes a `Province` as closure parameter, which is needed to draw `InteractiveShape`'s
+ - content: takes a `PathData` as closure parameter, which is needed to draw `InteractiveShape`'s
  - svgName: Filename needed to parse SVG. Can be written with or without .svg extension.
 
  - Resizes itself to the current frame. Takes all space when not specified
@@ -94,8 +94,9 @@ public struct Attributes {
    }
 ```
  */
+
 @available(iOS 13.0, macOS 10.15, *)
-public struct InteractiveMap<Content> : View where Content : View{
+public struct InteractiveMap<Content> : View where Content : View {
     /// name of the SVG, can be written with or without file extension
     let svgName : String
     
@@ -109,6 +110,7 @@ public struct InteractiveMap<Content> : View where Content : View{
     }
 
     @State private var pathData = [PathData]()
+    
     public var body: some View {
         GeometryReader { geo in
             ZStack {
@@ -116,13 +118,13 @@ public struct InteractiveMap<Content> : View where Content : View{
                 if !pathData.isEmpty {
                     ForEach(pathData) { pathData in
                         content(pathData)
-                        
                     }
+                    
                 }
             }
             .onAppear {
                 let parser = MapParser(svgName: svgName, size: geo.size)
-                pathData = parser.initPathData()
+                pathData = parser.pathDatas 
             }
         }
     }
