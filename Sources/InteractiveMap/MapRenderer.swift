@@ -55,7 +55,7 @@ public struct Attributes {
 
  - Resizes itself to the current frame. Takes all space when not specified
  
-  To draw `InteractiveMap` to screen, you have to just provide an `svg` name and `Province` as closure parameter
+  To draw `InteractiveMap` to screen, you have to just provide an `svg` name and `PathData` as closure parameter
   ```
     struct ContentView : View {
         var body: some View {
@@ -78,7 +78,7 @@ public struct Attributes {
         }
     }
  ```
- If you want to edit attributes of the map like `strokeColor`, `strokeWidth` or `provinceColor`, you can initialize `Attributes` struct within `.initWithAttributes` for that.
+ If you want to edit attributes of the map like `strokeColor`, `strokeWidth` or `background`, you can initialize `Attributes` struct within `.initWithAttributes` for that.
  
  ``.initWithAttributes(.init(strokeWidth: 2, strokeColor: .red, background: .black))``
 
@@ -104,7 +104,7 @@ public struct InteractiveMap<Content> : View where Content : View {
     var content: ((_ pathData: PathData) -> Content)
     
     
-    public init(svgName: String, @ViewBuilder content: @escaping (_ province: PathData) -> Content) {
+    public init(svgName: String, @ViewBuilder content: @escaping (_ pathData: PathData) -> Content) {
         self.svgName = svgName
         self.content = content
     }
