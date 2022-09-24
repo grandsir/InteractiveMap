@@ -123,7 +123,7 @@ import SwiftUI
 import InteractiveMap
 
 struct ContentView: View {
-    @State private var clickedPath = PathData.EmptyPath
+    @State private var clickedPath = PathData()
     var body: some View {
         VStack {
             Text(clickedPath.name.isEmpty ? "" : "\(clickedPath.name) is clicked!" )
