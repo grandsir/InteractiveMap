@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// drawing paths with given command and coordinates
 @available(macOS 10.15, iOS 13.0, *)
 func executeCommand(svgData: PathData, rect: CGRect) -> Path {
     var path = Path()
@@ -84,6 +85,7 @@ func executeCommand(svgData: PathData, rect: CGRect) -> Path {
         }
     }
     
+    // scale down paths
     if let svgBounds = svgData.svgBounds {
         let scaleHorizontal = rect.size.width / (svgBounds.width) ;
         let scaleVertical = rect.size.height / (svgBounds.height) ;
