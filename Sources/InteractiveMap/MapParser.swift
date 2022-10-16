@@ -90,7 +90,7 @@ public class MapParser : NSObject, XMLParserDelegate {
              
              - First Loop: initialize first command (mostly M or m). Collect all "coordinates" related to that command.
              
-             - Other Loops: when encountered a letter, scan every coordinate collected from the previous command. Convert them to integers using scanner, then add them as execution commands to related Province. Finally, replace previous command with new command. Repeat this process.
+             - Other Loops: when encountered a letter, scan every coordinate collected from the previous command. Convert them to integers using scanner, then add them as execution commands to related PathData. Finally, replace previous command with new command. Repeat this process.
              
              *****************************************************************************
              */
