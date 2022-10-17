@@ -10,7 +10,7 @@ import SwiftUI
 /**
  A shape that unifies the entire map when combined with other `InteractiveShape`s.
  - Parameters :
- - pathData: A struct that holds everything about path (`id`, `name`, `path`, `boundingRect`),
+ - pathData: A struct that holds everything about path (`id`, `name`, `path`, `boundingRect` and `svgBounds`),
  */
 @available(iOS 13.0, macOS 10.15, *)
 public struct InteractiveShape : Shape {
