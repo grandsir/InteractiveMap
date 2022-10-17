@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-// drawing paths with given command and coordinates
 @available(macOS 10.15, iOS 13.0, *)
 func executeCommand(svgData: PathData, rect: CGRect) -> Path {
     var path = Path()
@@ -17,6 +16,7 @@ func executeCommand(svgData: PathData, rect: CGRect) -> Path {
     var control2 : CGPoint? = nil
     
     for pathExecutionCommand in svgData.path {
+        
         if pathExecutionCommand.command == "M" {
             path.move(to: pathExecutionCommand.coordinate)
             lastPoint = pathExecutionCommand.coordinate
@@ -29,17 +29,45 @@ func executeCommand(svgData: PathData, rect: CGRect) -> Path {
             lastPoint = point
         }
         
-        if pathExecutionCommand.command == "V" || pathExecutionCommand.command == "L" {
+        if pathExecutionCommand.command == "L" {
             path.addLine(to: pathExecutionCommand.coordinate)
             lastPoint = pathExecutionCommand.coordinate
         }
         
-        if pathExecutionCommand.command == "v" ||  pathExecutionCommand.command == "l" {
+        if pathExecutionCommand.command == "l" {
             let point = CGPoint(x: pathExecutionCommand.coordinate.x + lastPoint.x, y: pathExecutionCommand.coordinate.y + lastPoint.y)
             
             path.addLine(to: point)
             lastPoint = point
         }
+        
+        if pathExecutionCommand.command == "h" {
+            let point = CGPoint(x: pathExecutionCommand.coordinate.x + lastPoint.x, y: lastPoint.y)
+            
+            path.addLine(to: point)
+            lastPoint = point
+        }
+        
+        if pathExecutionCommand.command == "H" {
+            let point = CGPoint(x: pathExecutionCommand.coordinate.x, y: lastPoint.y)
+            path.addLine(to: point)
+            
+            lastPoint = point
+        }
+        
+        if pathExecutionCommand.command == "v" {
+            let point = CGPoint(x: lastPoint.x, y: pathExecutionCommand.coordinate.y + lastPoint.y)
+            
+            path.addLine(to: point)
+            lastPoint = point
+        }
+        
+        if pathExecutionCommand.command == "V" {
+            let point = CGPoint(x: lastPoint.x, y: pathExecutionCommand.coordinate.y)
+            path.addLine(to: point)
+            lastPoint = point
+        }
+        
         
         if pathExecutionCommand.command == "z" || pathExecutionCommand.command == "Z" {
             path.closeSubpath()
@@ -85,7 +113,6 @@ func executeCommand(svgData: PathData, rect: CGRect) -> Path {
         }
     }
     
-    // scale down paths
     if let svgBounds = svgData.svgBounds {
         let scaleHorizontal = rect.size.width / (svgBounds.width) ;
         let scaleVertical = rect.size.height / (svgBounds.height) ;

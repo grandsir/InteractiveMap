@@ -109,7 +109,8 @@ public class MapParser : NSObject, XMLParserDelegate {
                         
                         var x = 0.0
                         var y = 0.0
-                        var prevValueScanned = false
+                        var prevValueScanned = currentCommand.lowercased() == "h" || currentCommand.lowercased() == "v"
+            
                         
                         scanner.charactersToBeSkipped = ["\n", ","]
                         
@@ -118,14 +119,21 @@ public class MapParser : NSObject, XMLParserDelegate {
                         while(!scanner.isAtEnd) {
                             let value = scanner.scanDouble()
                             if let value = value {
-                                
                                 if prevValueScanned {
-                                    y = value * scaleAmount
-                                    
-                                    minY = min(value, minY)
-                                    maxY = max(value, maxY)
-                                    
-                                    pathData.path.append(PathExecutionCommand(coordinate: CGPoint(x: x, y: y), command: String(currentCommand)))
+                                    if (currentCommand.lowercased() == "h")
+                                    {
+                                        x = value * scaleAmount
+                                        minX = min(x, minX)
+                                        maxX = max(x, maxX)
+                                        pathData.path.append(PathExecutionCommand(coordinate: CGPoint(x: x, y: 0.0), command: String(currentCommand)))
+                                    }
+                                    else {
+                                        
+                                        minY = min(value, minY)
+                                        maxY = max(value, maxY)
+                                        y = value * scaleAmount
+                                        pathData.path.append(PathExecutionCommand(coordinate: CGPoint(x: x, y: y), command: String(currentCommand)))
+                                    }
                                 }
                                 
                                 else {

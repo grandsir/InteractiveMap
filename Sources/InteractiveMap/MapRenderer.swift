@@ -109,6 +109,9 @@ public struct InteractiveMap<Content> : View where Content : View {
         self.content = content
     }
 
+    @State private var width : CGFloat = .zero
+    @State private var height : CGFloat = .zero
+
     @State private var pathData = [PathData]()
     
     public var body: some View {
@@ -123,6 +126,7 @@ public struct InteractiveMap<Content> : View where Content : View {
                 }
             }
             .onAppear {
+                // scaling paths to fit to screen
                 let parser = MapParser(svgName: svgName, size: geo.size)
                 pathData = parser.pathDatas 
             }
