@@ -70,7 +70,7 @@ struct ContentView: View {
     }
 }
 ```
-InteractiveMap resizes itself to the assigned frame, and takes all available space by default.
+InteractiveMap resizes itself to the assigned frame, takes all available space by default, and resizes itself responsively on device rotations. 
 
 <img src="Assets/map_default.png" width=700 alt="Default Map">
 
