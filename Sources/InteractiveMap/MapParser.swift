@@ -215,7 +215,7 @@ public class MapParser : NSObject, XMLParserDelegate {
     }
 }
 
-public struct PathExecutionCommand : CustomStringConvertible, Identifiable {
+public struct PathExecutionCommand : CustomStringConvertible, Identifiable, Sendable {
     public var id = UUID()
     var coordinate: CGPoint // (x, y)
     var command : String
