@@ -141,7 +141,7 @@ func executeCommand(svgData: PathData, rect: CGRect) -> Path {
 ///
 ///
 @available(iOS 13.0, macOS 10.15, *)
-public struct PathData : Identifiable {
+public struct PathData : Identifiable, Sendable {
     public var id : String = ""
     public var name: String = ""
     public var boundingBox: CGRect? = nil
